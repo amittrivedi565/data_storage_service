@@ -12,17 +12,20 @@ public class bucket_service {
 
     private final queue_manager qm;
     private final file_system fs;
+    private final path_generator pg;
 
     @Autowired
-    public bucket_service(queue_manager qm, file_system fs) {
+    public bucket_service(queue_manager qm, file_system fs, path_generator pg) {
         this.qm = qm;
         this.fs = fs;
+        this.pg = pg;
     }
 
-    public void upload_file_service(MultipartFile file) {
+    public void upload_file_service(MultipartFile file, String path) {
         if (file != null && !file.isEmpty()) {
             qm.add_file_to_queue(file);
-            fs.upload_file_async();
+            String full_path = pg.pg(path);
+            fs.upload_file_async(full_path);
         } else {
             throw new IllegalArgumentException("Cannot add null or empty file to queue.");
         }

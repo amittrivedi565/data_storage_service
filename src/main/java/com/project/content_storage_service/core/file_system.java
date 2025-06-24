@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,9 @@ public class file_system {
     private final queue_manager qm;
     private final thread_manager tm;
 
-    public void upload_file_async() {
-        tm.submit_task(this::upload_file);
+    public void upload_file_async(String dir_path) {
+        Path path = Path.of(dir_path);
+        tm.submit_task(()->upload_file(path));
     }
 
     @Autowired
@@ -27,24 +29,26 @@ public class file_system {
         this.qm = qm;
         this.tm = tm;
     }
-    public void upload_file() {
+    public void upload_file(Path targetDir) {
         try {
-
             MultipartFile file = qm.pickup_file_for_upload();
-
-            if(file == null) return ;
-
-            Path uploadDir = Paths.get("uploads");
-
-            if (!Files.exists(uploadDir)) {
-                Files.createDirectories(uploadDir);
+            if (file == null) {
+                System.out.println("Queue is empty.");
+                return;
             }
+
+            Files.createDirectories(targetDir);
+
+            Path destination = targetDir.resolve(file.getOriginalFilename());
 
             try (InputStream input = file.getInputStream()) {
-                Files.copy(input, uploadDir.resolve(file.getOriginalFilename()));
+                Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("✅ File saved to: " + destination);
             }
 
+
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Failed to upload file", e);
         }
     }
