@@ -1,4 +1,4 @@
-package com.project.content_storage_service.services;
+package com.project.content_storage_service.bucket;
 
 import com.project.content_storage_service.core.file_system;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ public class bucket_service {
     public void upload_file_service(MultipartFile file) {
         if (file != null && !file.isEmpty()) {
             qm.add_file_to_queue(file);
-            System.out.println("File added to upload queue: " + file.getOriginalFilename());
             fs.upload_file_async();
         } else {
             throw new IllegalArgumentException("Cannot add null or empty file to queue.");
