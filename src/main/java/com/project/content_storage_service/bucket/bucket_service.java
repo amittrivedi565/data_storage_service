@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.content_storage_service.core.queue_manager;
 
+import java.util.UUID;
+
 @Service
 public class bucket_service {
 
@@ -21,14 +23,18 @@ public class bucket_service {
         this.pg = pg;
     }
 
-    public void upload_file_service(MultipartFile file, String path) {
-        if (file != null && !file.isEmpty()) {
-            qm.add_file_to_queue(file);
-            String full_path = pg.pg(path);
-            String file_name = pg.generate_file_name(path);
-            fs.upload_file_async(full_path,file_name);
-        } else {
-            throw new IllegalArgumentException("Cannot add null or empty file to queue.");
-        }
+    public String upload_file_service(MultipartFile file, String path) {
+       try{
+           qm.add_file_to_queue(file);
+
+           String full_path = pg.pg(path);
+           String file_name = pg.generate_file_name(path);
+           String task_id = UUID.randomUUID().toString();
+
+           fs.upload_file_async(full_path,file_name,task_id);
+           return task_id;
+       } catch (RuntimeException e) {
+           throw new RuntimeException(e.getMessage());
+       }
     }
 }

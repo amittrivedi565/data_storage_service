@@ -9,31 +9,36 @@ import java.io.InputStream;
 @Component
 public class file_validator {
 
-    public boolean is_valid_pdf(MultipartFile file) {
-        // 1. Check MIME type
+    public record ValidationResult(boolean valid, String message) {}
+
+    public  ValidationResult is_valid_pdf(MultipartFile file) {
+
+        if(file.isEmpty()) {
+            return new ValidationResult(false,"No file provided");
+        }
         if (!"application/pdf".equals(file.getContentType())) {
-            return false;
+            return new ValidationResult(false,"Only PDF files are allowed.");
         }
 
-        // 2. Check file extension
         String filename = file.getOriginalFilename();
         if (filename == null || !filename.toLowerCase().endsWith(".pdf")) {
-            return false;
+            return new ValidationResult(false,"File with no name");
         }
 
-        // 3. Check file signature (magic bytes)
         try (InputStream is = file.getInputStream()) {
             byte[] header = new byte[5];
             int bytesRead = is.read(header);
-
             if (bytesRead >= 4) {
                 String headerString = new String(header, 0, 4);
-                return headerString.equals("%PDF");
+                if ("%PDF".equals(headerString)) {
+                    return new ValidationResult(true, "Valid PDF");
+                } else {
+                    return new ValidationResult(false, "File with invalid header");
+                }
             }
         } catch (IOException e) {
-            System.err.println("Error reading file header: " + e.getMessage());
+            return new ValidationResult(false,"Error reading file: " + e.getMessage());
         }
-
-        return false;
+        return new ValidationResult(false,"File validation error");
     }
 }

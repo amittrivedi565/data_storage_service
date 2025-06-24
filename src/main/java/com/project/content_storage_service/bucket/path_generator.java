@@ -13,6 +13,7 @@ public class path_generator {
         String fullPath = BUCKET_NAME + File.separator + normalizedPath;
 
         File dir = new File(fullPath);
+
         if (!dir.exists() && !dir.mkdirs()) {
             throw new RuntimeException("Error creating directory: " + dir.getAbsolutePath());
         }
@@ -21,7 +22,7 @@ public class path_generator {
     }
 
     public String generate_file_name(String params) {
-        // rgpv/btech/cse/1/dsa/unit1
+
         String[] parts = params.split("/");
 
         String uni = parts[0].toUpperCase();

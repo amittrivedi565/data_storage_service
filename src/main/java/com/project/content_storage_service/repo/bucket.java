@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class bucket_entity {
+public class bucket {
 
     @Id
     @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -14,34 +14,26 @@ public class bucket_entity {
     private String filePath;
 
 
-    public bucket_entity() {
+    public bucket() {
     }
 
-    public bucket_entity(String bucketName, String fileName, String filePath) {
+    public bucket(String bucketName, String fileName, String filePath) {
         this.bucketName = bucketName;
         this.fileName = fileName;
         this.filePath = filePath;
     }
-    
+
     public Long getId() {
         return id;
     }
-    public String getBucketName() {
-        return bucketName;
-    }
+    public String getBucketName() {return bucketName;}
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
     }
     public String getFileName() {
         return fileName;
     }
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-    public String getFilePath() {
-        return filePath;
-    }
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+    public void setFileName(String fileName) {this.fileName = fileName;}
+    public String getFilePath() {return filePath;}
+    public void setFilePath(String filePath) {this.filePath = filePath;}
 }
