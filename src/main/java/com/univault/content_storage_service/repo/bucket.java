@@ -1,4 +1,4 @@
-package com.project.content_storage_service.repo;
+package com.univault.content_storage_service.repo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

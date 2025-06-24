@@ -1,4 +1,4 @@
-package com.project.content_storage_service.core;
+package com.univault.content_storage_service.core;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,12 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import com.project.content_storage_service.bucket.task_tracker;
+import com.univault.content_storage_service.bucket.task_tracker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.content_storage_service.concurrency.thread_manager;
+import com.univault.content_storage_service.concurrency.thread_manager;
 
 @Component
 public class file_system {

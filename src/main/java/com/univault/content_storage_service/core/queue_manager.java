@@ -1,4 +1,4 @@
-package com.project.content_storage_service.core;
+package com.univault.content_storage_service.core;
 
 import java.util.LinkedList;
 import java.util.Queue;

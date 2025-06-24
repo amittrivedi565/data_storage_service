@@ -1,4 +1,4 @@
-package com.project.content_storage_service.concurrency;
+package com.univault.content_storage_service.concurrency;
 
 import org.springframework.stereotype.Component;
 
@@ -11,8 +11,8 @@ public class thread_manager {
 
     public thread_manager() {
         this.executorService = new ThreadPoolExecutor(
-                50, // core pool size
-                200, // maximum pool size
+                5, // core pool size
+                10, // maximum pool size
                 60L, // idle thread keep-alive time
                 TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(500), // work queue

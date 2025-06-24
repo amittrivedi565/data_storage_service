@@ -1,4 +1,4 @@
-package com.project.content_storage_service;
+package com.univault.content_storage_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.project.content_storage_service.bucket;
+package com.univault.content_storage_service.bucket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class bucket_controller {
             }
 
             String taskId = bucketService.upload_file_service(file, path);
-            return ResponseEntity.ok("File queued and upload started."+taskId);
+            return ResponseEntity.ok("File queued and upload started,"+ " Task ID: " +taskId);
         } catch (Exception e) {
             System.err.println("Upload failed: " + e.getMessage());
             return ResponseEntity.internalServerError().body("Upload failed: " + e.getMessage());

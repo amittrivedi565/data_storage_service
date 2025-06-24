@@ -1,4 +1,4 @@
-package com.project.content_storage_service.bucket;
+package com.univault.content_storage_service.bucket;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
