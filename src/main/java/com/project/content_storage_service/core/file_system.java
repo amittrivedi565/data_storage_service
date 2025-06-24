@@ -19,9 +19,9 @@ public class file_system {
     private final queue_manager qm;
     private final thread_manager tm;
 
-    public void upload_file_async(String dir_path) {
+    public void upload_file_async(String dir_path, String file_name) {
         Path path = Path.of(dir_path);
-        tm.submit_task(()->upload_file(path));
+        tm.submit_task(()->upload_file(path,file_name));
     }
 
     @Autowired
@@ -29,17 +29,13 @@ public class file_system {
         this.qm = qm;
         this.tm = tm;
     }
-    public void upload_file(Path targetDir) {
+    public void upload_file(Path targetDir, String file_name) {
         try {
             MultipartFile file = qm.pickup_file_for_upload();
-            if (file == null) {
-                System.out.println("Queue is empty.");
-                return;
-            }
 
             Files.createDirectories(targetDir);
 
-            Path destination = targetDir.resolve(file.getOriginalFilename());
+            Path destination = targetDir.resolve(file_name);
 
             try (InputStream input = file.getInputStream()) {
                 Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING);

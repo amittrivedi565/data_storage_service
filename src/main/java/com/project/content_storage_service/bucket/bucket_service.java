@@ -25,7 +25,8 @@ public class bucket_service {
         if (file != null && !file.isEmpty()) {
             qm.add_file_to_queue(file);
             String full_path = pg.pg(path);
-            fs.upload_file_async(full_path);
+            String file_name = pg.generate_file_name(path);
+            fs.upload_file_async(full_path,file_name);
         } else {
             throw new IllegalArgumentException("Cannot add null or empty file to queue.");
         }
